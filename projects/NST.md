@@ -43,4 +43,4 @@ The total loss cost function is a representation of our core problem: minimizing
 
 We have also made a simple GUI that provides an easier way to use the model. One can either run the model the easy way by just filling out the required arguments or one can fine tune the image by specifying the optional arguments. These arguments range from the number of iterations to run for to the specific content and style weights which can end up changing the final image drastically.
 
-{% include image.html url="http://www.github.com/NeuralStyleTransfer" image="projects/NST/GUI.jpg" %}
+{% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/GUI.jpg" %}
