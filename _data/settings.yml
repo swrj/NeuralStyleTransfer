@@ -37,7 +37,10 @@ disqus:
 # Work Section
 
 projects:
-- {name: 'Neural Style Transfer', folder: 'NST', file: 'projects/NST.html'}
+- {name: 'Summary', folder: 'NST', file: 'projects/NST.html'}
+- {name: 'Project Proposal', folder: 'Proposal', file: 'projects/Proposal.html'}
+- {name: 'Midterm Report', folder: 'Report', file: 'projects/Report.html'}
+- {name: 'Slides', folder: 'Slides', file: 'projects/Slides.html'}
 
 #-------------------------------
 # Contact Section
@@ -45,5 +48,7 @@ projects:
 social:
 - {icon: 'github', link: 'https://www.github.com/swrj'}
 - {icon: 'envelope', link: 'mailto:srao24@wisc.edu'}
+- {icon: 'github', link: 'https://www.github.com/rohitbs19'}
+- {icon: 'envelope', link: 'mailto:battula2@wisc.edu'}
 
 # social network icons available: 'twitter' / 'facebook' / 'github' / 'pinterest' 'google-plus' / 'linkedin' / 'youtube' / 'instagram' / 'dribbble' / 'behance' / 'soundcloud' / 'vine'
