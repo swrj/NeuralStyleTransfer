@@ -4,7 +4,8 @@ title: 'Neural Style Transfer'
 ---
 Our project implements Leon Gatys’ paper ‘A Neural Algorithm of Artistic Style’ which gave birth to Neural Style Transfer
 
-![alt text](projects/NST/gene-kogan-nst.gif "Pablo Picasso painting on glass in 1937, restyled by works from his Blue, African, and Cubist periods respectively. Image via Gene Kogan")
+{% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/gene-kogan-nst.gif" %}
+Pablo Picasso painting on glass in 1937, restyled by works from his Blue, African, and Cubist periods respectively. Image via [Gene Kogan](http://genekogan.com/works/style-transfer/)
 
 So what is Neural Style Transfer?
 It is the formation of a new image by combining the style of an input image with the content of another input image.
@@ -12,7 +13,7 @@ The French have a word for this called Pastiche which is roughly translated to �
 Humans are unique in their skill to create images that have a complex exchange between the content and style of an image and talented painters can easily create new pieces of art that imitate the style of a famous painter. It is however harder for a computer to create a pastiche. 
 We will thus be implementing Gatys’ paper with a few additions.
 
-![alt text](projects/NST/conv.gif "Convolution")
+{% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/conv.gif" %}
 
 Neural Style Transfer has been used previously in commercial applications like Prisma and Ostagram which let users transform ordinary images into paintings. 
 Neural Style Transfer has also been used in the production of animated movies as it reduces the number of frames that need to be painted or drawn, as was the case in the production of the short film Come Swim in 2017.
@@ -22,7 +23,7 @@ The VGG-19 Convolutional Neural Network is used in our implementation of Neural 
 We are especially interested in the maps in the lower layers  and higher layers as the maps in the lower layers look for low level features such as lines or blobs while maps in the higher layers look for more complex features. 
 Unlike updating weights and biases, as in a traditional problem involving a CNN, style transfer starts with a blank image. A cost function is then constantly optimized by changing the pixel values of the image.
 
-{% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/vgg.jpg" %}
+{% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/vgg19.jpg" %}
 The VGG-19 Convolutional Neural Network
 
 We made use of TensorFlow for carrying out most of the computation required for optimizing our loss functions. We used Numpy to do matrix arithmetic and image manipulations. 
