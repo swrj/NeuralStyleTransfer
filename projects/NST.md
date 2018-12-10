@@ -44,3 +44,13 @@ The total loss cost function is a representation of our core problem: minimizing
 We have also made a simple GUI that provides an easier way to use the model. One can either run the model the easy way by just filling out the required arguments or one can fine tune the image by specifying the optional arguments. These arguments range from the number of iterations to run for to the specific content and style weights which can end up changing the final image drastically.
 
 {% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/GUI.jpg" %}
+
+Results
+
+If we use the Abe statue on Bascom Hill as our input content image and Van Gogh's self portrait as our input style image
+{% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/Abe.jpg" %}
+{% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/vangogh.jpg" %}
+as shown above, we get the following sequence of images every 100 iterations
+{% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/progression.jpg" %}
+which eventually culminates in the following picture at a 1000 iterations of our algorithm
+{% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/thumb.jpg" %}
