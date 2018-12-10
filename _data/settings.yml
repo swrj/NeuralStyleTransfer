@@ -2,7 +2,7 @@
 # General Site Settings
 
 menu:
-- {name: 'Projects', url: ''}
+- {name: 'Neural Style Transfer', url: ''}
 
 #-------------------------------
 # SEO Section
