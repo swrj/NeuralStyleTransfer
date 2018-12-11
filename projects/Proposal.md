@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Neural Style Transfer'
+title: 'Project Proposal (09/26/18)'
 ---
 # Artistic Style Transfer
 
