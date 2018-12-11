@@ -5,17 +5,17 @@ title: 'Project Midterm Report (10/31/18)'
 
 # Midterm Report
 
-###### [Original Project Midterm Report](https://docs.google.com/document/d/1mSnwTLdyXf_L5wPUK20Ozkspxf6ZbtTApwF5ZWDXgzE/edit?usp=sharing)
+#### [Original Project Midterm Report](https://docs.google.com/document/d/1mSnwTLdyXf_L5wPUK20Ozkspxf6ZbtTApwF5ZWDXgzE/edit?usp=sharing)
 
 ## Explain problem
 We decided to implement A Neural Algorithm of Artistic Style by Gatys et. al. This paper provides a method for extracting the “style” from one image and the “content” from another image and forming a new image with the extracted content and style. Previously, it was not known if the representations of content and style of images were truly separable using Convolutional Neural Networks. 
 
 The paper treats the problem of isolating a picture’s content and style as an optimisation problem. A white noise image is the starting point, and is made more and more similar to the desired merged image through the optimization of a cost function. This was a novel way of tackling the problem of style transfer as instead of updating the weights and biases (as in a traditional CNN), they are kept constant and the pixels are modified instead. 
 
-##Why is it important
+## Why is it important
 Neural style transfer can generate images in the styles of famous painters. In the past, creating images in the style of another painter required a highly skilled artist and a lot of time. Many commercial applications such as the mobile application Prisma and the web application Ostagram have monetized the appeal of neural style transfer as a simple way of allowing users to create art. There are several potential applications for this technology. For example, neural style transfer could be used in the production of animated movies. Creating an animation requires about 24 frames per second, which are usually painted or drawn. Neural style transfer could be used to automatically stylise the frames into a specific animation style quickly, as was the case in the production of the short film Come Swim in 2017.
 
-##Current state of the art
+## Current state of the art
 Gatys et al.’s work in 2015 led to a series of advances in Neural Style algorithms. These algorithms can be broadly divided into Image Optimisation Based Online Neural Methods (IOB-NST) and Model Optimisation Based Offline Neural Methods (MOB-NST). Gatys et al.’s method does not perform well in preserving the fine structure and details of the input content image. This method also does not take into account the different depth information and low level information in the input content image. 
 
 IOB-NST algorithms (such as Gatys et al.’s algorithm) first model and extract style and content information, recombine them as the target representation and then iteratively reconstruct a stylized image that closely matches the target representation. These algorithms are very computationally expensive due to the iterative image optimisation procedure.
@@ -63,14 +63,14 @@ Mid November: Finish writing most of the python code and start writing code for 
 End of November: See if its possible to extend the algorithm to videos and compare performance of VGG 19 classifier with Inception and ResNet
 
 ## References
-https://arxiv.org/pdf/1508.06576v2.pdf
-https://shafeentejani.github.io/2016-12-27/style-transfer/
-https://arxiv.org/pdf/1705.04058.pdf
-https://arxiv.org/pdf/1610.07629.pdf
-https://ai.googleblog.com/2016/10/supercharging-style-transfer.html
-http://openaccess.thecvf.com/content_cvpr_2017/papers/Gatys_Controlling_Perceptual_Factors_CVPR_2017_paper.pdf
-https://medium.com/artists-and-machine-intelligence/neural-artistic-style-transfer-a-comprehensive-look-f54d8649c199
-https://towardsdatascience.com/a-brief-introduction-to-neural-style-transfer-d05d0403901d
-https://arxiv.org/pdf/1701.01036.pdf
-https://arxiv.org/pdf/1701.04928.pdf
-https://blog.slavv.com/picking-an-optimizer-for-style-transfer-86e7b8cba84b
+* [*A Neural Algorithm of Artistic Style*](https://arxiv.org/pdf/1508.06576v2.pdf)  
+* [Artistic Style Transfer with Deep Neural Networks](https://shafeentejani.github.io/2016-12-27/style-transfer/)  
+* [*Neural Style Transfer: A Review*](https://arxiv.org/pdf/1705.04058.pdf)  
+* [*A Learned Representation for Artistic Style*](https://arxiv.org/pdf/1610.07629.pdf)  
+* [Supercharging Style Transfer](https://ai.googleblog.com/2016/10/supercharging-style-transfer.html)  
+* [*Controlling Perceptual Factors in Neural Style Transfer*](http://openaccess.thecvf.com/content_cvpr_2017/papers/Gatys_Controlling_Perceptual_Factors_CVPR_2017_paper.pdf)  
+* [Neural Artistic Style Transfer: A Comprehensive Look](https://medium.com/artists-and-machine-intelligence/neural-artistic-style-transfer-a-comprehensive-look-f54d8649c199)  
+* [A brief introduction to Neural Style Transfer](https://towardsdatascience.com/a-brief-introduction-to-neural-style-transfer-d05d0403901d)  
+* [*Demystifying Neural Style Transfer*](https://arxiv.org/pdf/1701.01036.pdf)  
+* [*Bringing Impressionism to Life with Neural Style Transfer in Come Swim*](https://arxiv.org/pdf/1701.04928.pdf)  
+* [Picking an optimizer for Style Transfer](https://blog.slavv.com/picking-an-optimizer-for-style-transfer-86e7b8cba84b)  

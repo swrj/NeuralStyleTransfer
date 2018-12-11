@@ -21,6 +21,6 @@ The paper shows that the task of transferring style from one image to another ca
 
 We plan on creating a simple web app with a GUI that allows users to choose pre-selected sample content and sample images to merge. The GUI will also have plenty of options and parameters that allow the user to have fine grain control over the output image such as number of iterations, style blend weights (when there are multiple input style images), style layer weights (to make the image look more “abstract” or more “concrete”), content weights (to choose a finer or coarser grain content transfer between pictures), pooling types (eg: max vs average pooling), etc. We plan on coding the model in Python (using TensorFlow), writing the webpage in Javascript (or alternatively using a github.io page) and hosting the project on AWS.
 
-##Team Members:
+## Team Members:
 **Swaraj Rao**, srao24@wisc.edu, srao24
 **Sai Rohit Battula**, battula2@wisc.edu, battula2
