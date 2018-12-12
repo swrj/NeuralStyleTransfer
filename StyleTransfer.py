@@ -38,7 +38,7 @@ def build_parser(): #TODO: add poll_external_updates to use dynamic values
     parser = GooeyParser(description="Choose input parameters for Neural Style Transfer")
     parser.add_argument('content', help='content image',
             metavar='CONTENT', widget = "FileChooser")
-    parser.add_argument('styles', help='one or more style images',
+    parser.add_argument('style', help='style image',
             metavar='STYLE', widget = "FileChooser")
     parser.add_argument('--iterations', type=int,
             dest='iterations', help='number of iterations to run for',
@@ -64,7 +64,7 @@ def main():
     parser = build_parser()
     args = parser.parse_args()
     content_image = load_img_preprocess(args.content)
-    style_image = load_img_preprocess(args.styles)
+    style_image = load_img_preprocess(args.style)
 
     """
     get the model from keras basically lets us extract the layers
@@ -165,10 +165,9 @@ def main():
     display_img = np.squeeze(best_img, axis=0)
     plt.imshow(display_img)
     plt.title('output image')
-    content_name = content_image[10:]
-    style_name = style_image[10:]
-    output_name = str(args.iterations)+"itr"+"-"+content_name+"-"+style_name+".jpg"
-    plt.savefig('results/'+output_name)
+    itr = str(args.iterations)
+    output_name = "result"+itr+"itr"+"-"+datetime.now().strftime("%m%d-%H%M")+".jpg"
+    plt.imsave(output_name, display_img)
     plt.show()
 
 
