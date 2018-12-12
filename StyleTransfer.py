@@ -21,7 +21,7 @@ BETA1 = 0.99
 BETA2 = 0.999
 EPSILON = 1e-1
 STYLE_SCALE = 1.0
-ITERATIONS = 100
+ITERATIONS = 5
 POOLING = 'max'
 OPTIMIZER = 'adam'
 INITIAL_ACC_VAL = 0.1
@@ -31,7 +31,7 @@ print("Eager execution: {}".format(tf.executing_eagerly()))
 
 @Gooey(advanced = True,
     program_name = "Style Transfer",
-    image_dir='C:/Users/rao_s/Documents/Fall19/CS534/Project',
+    #image_dir='C:/Users/rao_s/Documents/Fall19/CS534/Project',
     program_descirption = "Enter arguments in order to run the Style Transfer program.",
     show_stop_warning = True,
     force_stop_is_error = True,
@@ -79,6 +79,7 @@ def main():
     parser = build_parser()
     args = parser.parse_args()
     #best_picture, best_loss = run(args.content, args.style, args.iterations, args.content_weight, args.style_weight)
+    print(type(args.content))
     content_image = load_img_preprocess(args.content)
     style_image = load_img_preprocess(args.styles)
 
@@ -120,13 +121,13 @@ def main():
     gram_style_features = [gram_matrix(style_feature) for style_feature in style_features]
 
     # Set initial image
-    init_image = load_img_preprocess(content_image)
+    init_image = load_img_preprocess(args.content)
     init_image = tensor_eager.Variable(init_image, dtype=tf.float32)
     # Create our optimizer
     if args.optimizer == 'adam':
         opt = tf.train.AdamOptimizer(learning_rate=args.learning_rate, beta1=args.beta1, beta2=args.beta2, epsilon=args.epsilon)
     else:
-        opt = tf.train.AdagradDAOptimizer(learning_rate=args.learning_rate, initial_gradient_squared_accumulator_value=args.initial_gradient_squared_accumulator_value)
+        opt = tf.train.AdagradDAOptimizer(learning_rate=args.learning_rate, global_step = 0, initial_gradient_squared_accumulator_value=args.initial_gradient_squared_accumulator_value)
 
     loss_best = float('inf')
     best_img = None
@@ -134,7 +135,7 @@ def main():
     # clip the input image 
     # using max dim and min dim
     means = np.array([103.939, 116.779, 123.68])
-    min_dim = -means
+    min_dim = -1 * means
     max_dim = 255-means
 
     for i in range(args.iterations):
@@ -186,7 +187,7 @@ def main():
 
 def load_img_preprocess(image_path):
     print(type(image_path))
-    print(image_path)
+    #print(image_path)
     img_str = tf.read_file(image_path)
 
     img_decode = tf.image.decode_jpeg(img_str, 3)
