@@ -9,13 +9,9 @@ from tensorflow.python.keras import losses
 from tensorflow.python.keras import layers
 from tensorflow.python.keras import backend as K
 from PIL import Image
+from datetime import datetime
 import matplotlib.pyplot as plt
 
-CONTENT_WEIGHT = 5e0
-CONTENT_WEIGHT_BLEND = 1
-STYLE_WEIGHT = 5e2
-TV_WEIGHT = 1e2
-STYLE_LAYER_WEIGHT_EXP = 1
 LEARNING_RATE = 1e1
 BETA1 = 0.99
 BETA2 = 0.999
@@ -24,24 +20,22 @@ STYLE_SCALE = 1.0
 ITERATIONS = 5
 POOLING = 'max'
 OPTIMIZER = 'adam'
-INITIAL_ACC_VAL = 0.1
 
 tf.enable_eager_execution()
-print("Eager execution: {}".format(tf.executing_eagerly()))
 
 @Gooey(advanced = True,
-    program_name = "Style Transfer",
-    #image_dir='C:/Users/rao_s/Documents/Fall19/CS534/Project',
-    program_descirption = "Enter arguments in order to run the Style Transfer program.",
+    program_name = "Neural Style Transfer",
+    program_description = "Enter arguments in order to run the Style Transfer program.",
     show_stop_warning = True,
     force_stop_is_error = True,
     show_success_modal = True,
     run_validators = True,
-    navigation = "Sidebar",
-    show_sidebar = True,
-    )
+    show_sidebar = False,
+    image_dir = 'gooey_image_dir/',
+    progress_regex = r"^iteration: (?P<current>\d+)/(?P<total>\d+)$",
+    progress_expr="current/total * 100")
 def build_parser(): #TODO: add poll_external_updates to use dynamic values
-    parser = GooeyParser(description="Test")
+    parser = GooeyParser(description="Choose input parameters for Neural Style Transfer")
     parser.add_argument('content', help='content image',
             metavar='CONTENT', widget = "FileChooser")
     parser.add_argument('styles', help='one or more style images',
@@ -52,34 +46,23 @@ def build_parser(): #TODO: add poll_external_updates to use dynamic values
     parser.add_argument('--optimizer',
             dest='optimizer', help='choose between Adam and Adagrad',
             metavar='OPTIMIZER', default=OPTIMIZER, choices = ['adam', 'adagrad'])
-    parser.add_argument('--content-weight', type=float,
-            dest='content_weight', help='content weight (default %(default)s)',
-            metavar='CONTENT_WEIGHT', default=CONTENT_WEIGHT)
-    parser.add_argument('--style-weight', type=float,
-            dest='style_weight', help='style weight (default %(default)s)',
-            metavar='STYLE_WEIGHT', default=STYLE_WEIGHT)
     parser.add_argument('--learning-rate', type=float,
-            dest='learning_rate', help='learning rate (default %(default)s)',
+            dest='learning_rate', help='learning rate',
             metavar='LEARNING_RATE', default=LEARNING_RATE)
     parser.add_argument('--beta1', type=float,
-            dest='beta1', help='Adam: beta1 parameter (default %(default)s)',
+            dest='beta1', help='Adam: beta1 parameter',
             metavar='BETA1', default=BETA1)
     parser.add_argument('--beta2', type=float,
-            dest='beta2', help='Adam: beta2 parameter (default %(default)s)',
+            dest='beta2', help='Adam: beta2 parameter',
             metavar='BETA2', default=BETA2)
     parser.add_argument('--eps', type=float,
-            dest='epsilon', help='Adam: epsilon parameter (default %(default)s)',
+            dest='epsilon', help='Adam: epsilon parameter',
             metavar='EPSILON', default=EPSILON)
-    parser.add_argument('--initial_accumulator_value', type=float,
-            dest='initial_accumulator_value', help='starting value for accumulators in Adagrad optimizer',
-            metavar='INITIAL_ACCUMULATOR_VALUE', default = INITIAL_ACC_VAL)
     return parser
 
 def main():
     parser = build_parser()
     args = parser.parse_args()
-    #best_picture, best_loss = run(args.content, args.style, args.iterations, args.content_weight, args.style_weight)
-    print(type(args.content))
     content_image = load_img_preprocess(args.content)
     style_image = load_img_preprocess(args.styles)
 
@@ -127,7 +110,7 @@ def main():
     if args.optimizer == 'adam':
         opt = tf.train.AdamOptimizer(learning_rate=args.learning_rate, beta1=args.beta1, beta2=args.beta2, epsilon=args.epsilon)
     else:
-        opt = tf.train.AdagradDAOptimizer(learning_rate=args.learning_rate, global_step = 0, initial_gradient_squared_accumulator_value=args.initial_gradient_squared_accumulator_value)
+        opt = tf.train.AdagradOptimizer(learning_rate=args.learning_rate)
 
     loss_best = float('inf')
     best_img = None
@@ -144,6 +127,7 @@ def main():
         # compute content loss
         # compute their sum and produce gradients over the total loss
         # optimize using the total loss and the input image
+        print("iteration: {}/{}".format(i, args.iterations))
         with tf.GradientTape() as gradi:
             out_final_entireImage = main_model(init_image)
             style_out = out_final_entireImage[:5]
@@ -181,45 +165,28 @@ def main():
     display_img = np.squeeze(best_img, axis=0)
     plt.imshow(display_img)
     plt.title('output image')
-    plt.imsave('output', display_img)
+    content_name = content_image[10:]
+    style_name = style_image[10:]
+    output_name = str(args.iterations)+"itr"+"-"+content_name+"-"+style_name+".jpg"
+    plt.savefig('results/'+output_name)
     plt.show()
 
 
 def load_img_preprocess(image_path):
-    print(type(image_path))
-    #print(image_path)
     img_str = tf.read_file(image_path)
-
     img_decode = tf.image.decode_jpeg(img_str, 3)
-
     img = tf.cast(img_decode, tf.float32)
-
     dim =512.0
-
     height = tf.to_float(tf.shape(img)[1])
-
     width = tf.to_float(tf.shape(img)[0])
-
     scale = tf.cond(tf.greater(height, width), lambda: dim/width, lambda: dim/height)
-
     newHeight = tf.to_int32(height * scale)
     newWidth = tf.to_int32(width * scale)
-
     img = tf.image.resize_images(img, [newHeight, newWidth])
-
-    """VGG_MEAN = [123.68, 116.78, 103.94]  # This is R-G-B for Imagenet
-
-    img = tf.random_crop(img, [224, 224, 3])
-    means = tf.reshape(tf.constant(VGG_MEAN), [1, 1, 3])
-    img = img - means
-    """
     img = np.expand_dims(img, axis=0)
-
-    VGG_MEAN = [123.68, 116.78, 103.94]
-
+    VGG_MEAN = [123.68, 116.78, 103.94] #RGB Values for ImageNet
     means = tf.reshape(tf.constant(VGG_MEAN), [1, 1, 3])
     img = img - means
-
     return img
 
 
