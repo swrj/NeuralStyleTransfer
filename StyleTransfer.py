@@ -127,7 +127,7 @@ def main():
         # compute content loss
         # compute their sum and produce gradients over the total loss
         # optimize using the total loss and the input image
-        print("iteration: {}/{}".format(i, args.iterations))
+        print("iteration: {}/{}".format(i+1, args.iterations))
         with tf.GradientTape() as gradi:
             out_final_entireImage = main_model(init_image)
             style_out = out_final_entireImage[:5]
