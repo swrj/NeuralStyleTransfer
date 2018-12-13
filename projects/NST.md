@@ -57,13 +57,15 @@ Similaraly we deprocess the output image before displaying and saving it.
 
 ## Additions to code
 
-We added options so that the user has complete control over the output image. The user can choose the number of iterations to run (the higher the number, the more abstract the output and the longer it takes to run), the specific optimizer to use (we added support for Adam and Adagrad optimizers instead of a linear gradient descent optimizer as we saw better results)
+We added options so that the user has complete control over the output image. The user can choose the number of iterations to run (the higher the number, the more abstract the output and the longer it takes to run), the specific optimizer to use (we added support for Adam and Adagrad optimizers instead of a linear gradient descent optimizer as we saw better results). We also added options to allow the user to control the learning rate of the optimizer. In the case of the Adam optimizer, we also added the options to enter in custom values of beta1 (exponential decay rate for 1st moment estimates), beta2 (exponential decay rate for 2nd moment estimates) and epsilon (numerical stability constant) which in turn changes the output image to the users liking.
 
-We have also made a simple GUI that provides an easier way to use the model. One can either run the model the easy way by just filling out the required arguments or one can fine tune the image by specifying the optional arguments. These arguments range from the number of iterations to run for to the specific content and style weights which can end up changing the final image drastically.
+We have also made a simple GUI that provides an easier way to use the model. One can either run the model the easy way by just filling out the required arguments or one can fine tune the image by specifying the optional arguments. The GUI offers a streamlined simple way of running the algorithm without using the command line. We have packaged the GUI using pyinstaller so that the user can simply download it as a .exe file and run the algorithm without taking the time to set up the environment first.
 
 {% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/GUI.jpg" %}
 
-Results
+Finally we added the options of allowing the user to enter up to 3 style images to the style transfer algorithm. The algorithm transfer elements of style from each of these input images equally into the output.
+
+## Results
 
 If we use the Abe statue on Bascom Hill as our input content image and Van Gogh's self portrait as our input style image
 {% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/Abe.jpg" %}
@@ -71,4 +73,4 @@ If we use the Abe statue on Bascom Hill as our input content image and Van Gogh'
 as shown above, we get the following sequence of images every 100 iterations
 {% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/progression.jpg" %}
 which eventually culminates in the following picture at a 1000 iterations of our algorithm
-{% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/thumb.jpg" %}
+{% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/thumb.jpg" %}  
