@@ -2,7 +2,8 @@
 layout: post
 title: 'Neural Style Transfer'
 ---
-Our project implements Leon Gatys’ paper [*A Neural Algorithm of Artistic Style*](https://arxiv.org/pdf/1508.06576v2.pdf) which gave birth to a technique called Neural Style Transfer
+Our project implements Leon Gatys’ paper [*A Neural Algorithm of Artistic Style*](https://arxiv.org/pdf/1508.06576v2.pdf) which gave birth to a technique called Neural Style Transfer.  
+[Github repo here](https://github.com/swrj/NeuralStyleTransfer)  
 
 {% include image.html url="http://www.github.com/swrj/NeuralStyleTransfer" image="projects/NST/gene-kogan-nst.gif" %}
 Pablo Picasso painting on glass in 1937, restyled by works from his Blue, African, and Cubist periods respectively. Image via [Gene Kogan](http://genekogan.com/works/style-transfer/)
