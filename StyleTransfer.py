@@ -9,7 +9,8 @@ from tensorflow.python.keras import models
 from tensorflow.python.keras import losses
 from tensorflow.python.keras import layers
 from tensorflow.python.keras import backend as K
-
+import sys
+import os
 from PIL import Image
 from datetime import datetime
 import matplotlib.pyplot as plt
@@ -20,11 +21,17 @@ BETA1 = 0.99
 BETA2 = 0.999
 EPSILON = 1e-1
 STYLE_SCALE = 1.0
-ITERATIONS = 5
+ITERATIONS = 100
 POOLING = 'max'
 OPTIMIZER = 'adam'
 
 tf.enable_eager_execution()
+
+# Changing stdout buffering in python interpretor to 0
+# This is for the GUI to work properly
+# Error with pyinstaller and -u flag leads to this workaround
+nonbuffered_stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
+sys.stdout = nonbuffered_stdout
 
 @Gooey(advanced = True,
 program_name = "Neural Style Transfer",
