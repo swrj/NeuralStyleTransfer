@@ -14,6 +14,7 @@ from PIL import Image
 from datetime import datetime
 import matplotlib.pyplot as plt
 
+# default arguments
 LEARNING_RATE = 1e1
 BETA1 = 0.99
 BETA2 = 0.999
@@ -42,10 +43,10 @@ def build_parser():
             metavar='CONTENT', widget = "FileChooser")
     parser.add_argument('style', help='style image',
             metavar='STYLE', widget = "FileChooser")
-    parser.add_argument('--style2', help='style image',
-            metavar='STYLE', widget = "FileChooser")
-    parser.add_argument('--style3', help='style image',
-            metavar='STYLE', widget = "FileChooser")
+    parser.add_argument('--style2', help='additional style image',
+            metavar='STYLE1', widget = "FileChooser")
+    parser.add_argument('--style3', help='additional style image',
+            metavar='STYLE2', widget = "FileChooser")
     parser.add_argument('--iterations', type=int,
             dest='iterations', help='number of iterations to run for',
             metavar='ITERATIONS', default=ITERATIONS)
@@ -84,11 +85,8 @@ def main():
         print(i)
         style_images.append(load_img_preprocess(i))
     """
-    get the model from keras basically lets us extract the layers
+    getting the model from keras  lets us extract the layers
     and their corresponding intermediate and batch outputs
-
-    can do interesting things with the intermediate layers results
-
     """
 
     pretrained_net = tf.keras.applications.vgg19.VGG19(include_top=False, weights='imagenet')
@@ -196,37 +194,20 @@ def main():
 # citing URL: https://keras.io/applications/#vgg19
 def load_img_preprocess(image_path):
     img_str = tf.read_file(image_path)
-
     img_decode = tf.image.decode_jpeg(img_str, 3)
-
     img = tf.cast(img_decode, tf.float32)
-
     dim =512.0
-
     height = tf.to_float(tf.shape(img)[1])
-
     width = tf.to_float(tf.shape(img)[0])
-
     print('this is the old height and width ', height, width)
     scale = tf.cond(tf.greater(height, width), lambda: dim/width , lambda: dim/height)
     print('this is the scale ', scale)
-
     newHeight = tf.to_int32(height * scale)
     newWidth = tf.to_int32(width * scale)
     print('newheight and new width', newHeight, newWidth)
-
     img = tf.image.resize_images(img, [newHeight, newWidth])
-
-    """VGG_MEAN = [123.68, 116.78, 103.94]  # This is R-G-B for Imagenet
-
-    img = tf.random_crop(img, [224, 224, 3])
-    means = tf.reshape(tf.constant(VGG_MEAN), [1, 1, 3])
-    img = img - means
-    """
     img = np.expand_dims(img, axis=0)
-
     VGG_MEAN = [123.68, 116.78, 103.94]
-
     means = tf.reshape(tf.constant(VGG_MEAN), [1, 1, 3])
     img = img - means
     max_dim = 512
@@ -237,18 +218,15 @@ def load_img_preprocess(image_path):
     img = kp_image.img_to_array(img)
     img = np.expand_dims(img, axis=0)
     img = tf.keras.applications.vgg19.preprocess_input(img)
-
     return img
-
 
 def deprocess_img(processed_img):
     x = processed_img
-    # perform the inverse of the preprocessiing step
+    # performing the inverse of the preprocessing step
     x[:, :, 0] += 103.939
     x[:, :, 1] += 116.779
     x[:, :, 2] += 123.68
     x = x[:, :, ::-1]
-
     x = np.clip(x, 0, 255).astype('uint8')
     return x
 
@@ -256,7 +234,6 @@ def deprocess_img(processed_img):
 def restore_image(processed_image):
     x = processed_image
     x = np.squeeze(x, 0)
-
     VGG_MEAN = [123.68, 116.78, 103.94]
     means = tf.reshape(tf.constant(VGG_MEAN), [1, 1, 3])
     x = x + means
@@ -268,12 +245,10 @@ def get_style_loss(base_style, gram_target):
     # We scale the loss at a given layer by the size of the feature map and the number of filters
     height, width, channels = base_style.get_shape().as_list()
     gram_style = gram_matrix(base_style)
-
     return tf.reduce_mean(tf.square(gram_style - gram_target))
 
 def gram_matrix(input_tensor):
-
-# We make the image channels first
+    # We make the image channels first
     channels = int(input_tensor.shape[-1])
     a = tf.reshape(input_tensor, [-1, channels])
     n = tf.shape(a)[0]
